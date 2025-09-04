@@ -30,3 +30,22 @@ class DoctorCreateView(CreateAPIView):
                 'Message'        : 'Internal Server Error',
                 'data'           : str(a)
             })
+
+class DoctorListView(ListAPIView):
+
+    def get(self,request):
+        try:
+            s = KMC.objects.all()
+            serializer = DoctorResponseSerializer(s, many=True)
+            return Response({
+                "response_code" : 200,
+                "message"       : "process completed",
+                'data'          : serializer.data
+            })
+        except Exception as e:
+            return ({
+                'response_code'  : 500,
+                'message'        : 'Internal Server Error',
+                'data'           : str(e)
+            })
+
